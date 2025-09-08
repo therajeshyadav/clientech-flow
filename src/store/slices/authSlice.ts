@@ -36,13 +36,34 @@ export const register = createAsyncThunk(
   }
 );
 
-const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
-  token: localStorage.getItem('token') || null,
-  isLoading: false,
-  error: null,
-  isAuthenticated: !!localStorage.getItem('token'),
+const getInitialAuthState = () => {
+  try {
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+    
+    console.log('Initial auth state:', { token: !!token, user: !!user });
+    
+    return {
+      user,
+      token,
+      isLoading: false,
+      error: null,
+      isAuthenticated: !!token,
+    };
+  } catch (error) {
+    console.error('Error reading auth state from localStorage:', error);
+    return {
+      user: null,
+      token: null,
+      isLoading: false,
+      error: null,
+      isAuthenticated: false,
+    };
+  }
 };
+
+const initialState = getInitialAuthState();
 
 const authSlice = createSlice({
   name: 'auth',

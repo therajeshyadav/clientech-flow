@@ -15,12 +15,15 @@ const Login = () => {
   const dispatch = useDispatch();
   const { isLoading, error, isAuthenticated } = useSelector((state: RootState) => state.auth);
   
+  console.log('Login component state:', { isAuthenticated, isLoading });
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
   useEffect(() => {
+    console.log('Login useEffect - isAuthenticated:', isAuthenticated);
     if (isAuthenticated) {
       navigate('/dashboard');
     }

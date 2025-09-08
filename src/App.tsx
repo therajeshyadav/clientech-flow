@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { store } from './store';
@@ -14,6 +14,24 @@ import Reports from './pages/Reports';
 import NotFound from './pages/NotFound';
 
 const App = () => {
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    console.log('App component initialized');
+    setIsInitialized(true);
+  }, []);
+
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading MiniCRM...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Provider store={store}>
       <TooltipProvider>
