@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/axios';
 
-// Async thunks
+// Async thunks 
+// 
 export const fetchLeads = createAsyncThunk(
   'leads/fetchLeads',
   async (params: { customerId: string; status?: string }, { rejectWithValue }) => {

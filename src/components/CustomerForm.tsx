@@ -7,7 +7,7 @@ import { Label } from './ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
 import { User, Mail, Phone, Building } from 'lucide-react';
 import { Customer } from '../types';
-
+//
 interface CustomerFormProps {
   isOpen: boolean;
   onClose: () => void;

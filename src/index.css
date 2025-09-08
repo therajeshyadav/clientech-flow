@@ -2,141 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional CRM Design System - Business focused colors and gradients */
-
 @layer base {
   :root {
     /* Base colors */
-    --background: 249 250 251;
-    --foreground: 17 24 39;
+    --background: 0 0% 100%;       /* pure white */
+    --foreground: 222.2 47.4% 11.2%; /* dark gray */
 
-    --card: 255 255 255;
-    --card-foreground: 17 24 39;
+    --card: 0 0% 100%;             /* white */
+    --card-foreground: 222.2 47.4% 11.2%; /* dark gray */
 
-    --popover: 255 255 255;
-    --popover-foreground: 17 24 39;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
-    /* Business primary - Professional blue */
+    /* Business primary */
     --primary: 219 84% 58%;
-    --primary-foreground: 255 255 255;
+    --primary-foreground: 0 0% 100%;
     --primary-hover: 219 84% 52%;
 
-    /* Professional secondary */
-    --secondary: 243 244 246;
-    --secondary-foreground: 75 85 99;
+    /* Secondary / muted */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 9% 46%;
 
-    /* Neutral tones */
-    --muted: 249 250 251;
-    --muted-foreground: 107 114 128;
+    --muted: 210 20% 98%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 236 253 245;
-    --accent-foreground: 5 150 105;
+    /* Status */
+    --success: 142 72% 29%;
+    --success-foreground: 0 0% 100%;
 
-    /* Status colors */
-    --success: 34 197 94;
-    --success-foreground: 255 255 255;
-    
-    --warning: 245 158 11;
-    --warning-foreground: 255 255 255;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
-    --destructive: 239 68 68;
-    --destructive-foreground: 255 255 255;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Form elements */
-    --border: 229 231 235;
-    --input: 255 255 255;
-    --input-border: 209 213 219;
+    /* Form */
+    --border: 220 13% 91%;
+    --input: 0 0% 100%;
+    --input-border: 220 13% 91%;
     --input-focus: 219 84% 58%;
     --ring: 219 84% 58%;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(219 84% 58%), hsl(219 84% 48%));
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 71% 45%));
-    --gradient-card: linear-gradient(145deg, hsl(255 255 255 / 0.8), hsl(255 255 255));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100%));
 
     /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1), 0 10px 10px -5px hsl(0 0% 0% / 0.04);
 
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
     --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 17 24 39;
-    --foreground: 249 250 251;
+    --background: 222.2 47.4% 11.2%; /* dark bg */
+    --foreground: 0 0% 100%;
 
-    --card: 31 41 55;
-    --card-foreground: 249 250 251;
+    --card: 222.2 47.4% 11.2%;       /* dark card */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 31 41 55;
-    --popover-foreground: 249 250 251;
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 0 0% 100%;
 
     --primary: 219 84% 58%;
-    --primary-foreground: 255 255 255;
+    --primary-foreground: 0 0% 100%;
     --primary-hover: 219 84% 65%;
 
-    --secondary: 55 65 81;
-    --secondary-foreground: 203 213 225;
+    --secondary: 222 14% 20%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 55 65 81;
-    --muted-foreground: 148 163 184;
+    --muted: 222 14% 20%;
+    --muted-foreground: 220 10% 70%;
 
-    --accent: 6 78 59;
-    --accent-foreground: 34 197 94;
-
-    --success: 34 197 94;
-    --success-foreground: 255 255 255;
-    
-    --warning: 245 158 11;
-    --warning-foreground: 255 255 255;
-
-    --destructive: 239 68 68;
-    --destructive-foreground: 255 255 255;
-
-    --border: 75 85 99;
-    --input: 31 41 55;
-    --input-border: 75 85 99;
-    --input-focus: 219 84% 58%;
+    --border: 222 14% 28%;
+    --input: 222 14% 20%;
+    --input-border: 222 14% 28%;
     --ring: 219 84% 58%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(219 84% 58%), hsl(219 84% 65%));
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 71% 45%));
-    --gradient-card: linear-gradient(145deg, hsl(31 41 55 / 0.8), hsl(31 41 55));
-
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.15);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.2), 0 2px 4px -1px hsl(0 0% 0% / 0.16);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.2), 0 4px 6px -2px hsl(0 0% 0% / 0.15);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.2), 0 10px 10px -5px hsl(0 0% 0% / 0.14);
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --gradient-card: linear-gradient(145deg, hsl(222.2 47.4% 15% / 0.9), hsl(222.2 47.4% 20%));
   }
 }
 
@@ -148,46 +91,16 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
-  }
 }
 
 @layer components {
-  /* Animated loading states */
-  .animate-pulse-slow {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  /* Professional gradient backgrounds */
   .gradient-primary {
     background: var(--gradient-primary);
   }
-
   .gradient-card {
     background: var(--gradient-card);
   }
-
-  /* Professional shadows */
   .shadow-elegant {
     box-shadow: var(--shadow-lg);
-  }
-
-  .shadow-soft {
-    box-shadow: var(--shadow-md);
   }
 }

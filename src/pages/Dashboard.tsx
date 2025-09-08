@@ -59,7 +59,7 @@ const Dashboard = () => {
     setIsFormOpen(false);
     setEditingCustomer(null);
   };
-
+//
   const handleAddNew = () => {
     setEditingCustomer(null);
     setIsFormOpen(true);

@@ -12,7 +12,7 @@ import Dashboard from './pages/Dashboard';
 import CustomerDetail from './pages/CustomerDetail';
 import Reports from './pages/Reports';
 import NotFound from './pages/NotFound';
-
+//
 const App = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 

@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { RootState } from '../types';
 import { Lead } from '../types';
-
+//
 const CustomerDetail = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
