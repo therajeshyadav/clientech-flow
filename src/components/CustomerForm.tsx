@@ -52,7 +52,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ isOpen, onClose, customer }
     e.preventDefault();
     
     if (customer) {
-      dispatch(updateCustomer({ id: customer._id, ...formData }) as any);
+      dispatch(updateCustomer({ id: customer._id, name: formData.name, email: formData.email, phone: formData.phone, company: formData.company }) as any);
     } else {
       dispatch(createCustomer(formData) as any);
     }

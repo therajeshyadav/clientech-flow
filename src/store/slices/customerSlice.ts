@@ -4,11 +4,12 @@ import api from '../../api/axios';
 // Async thunks
 export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
-  async ({ page = 1, search = '' }, { rejectWithValue }) => {
+  async (params: { page?: number; search?: string }, { rejectWithValue }) => {
     try {
+      const { page = 1, search = '' } = params;
       const response = await api.get(`/customers?page=${page}&search=${search}`);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch customers');
     }
   }
@@ -16,11 +17,11 @@ export const fetchCustomers = createAsyncThunk(
 
 export const fetchCustomerById = createAsyncThunk(
   'customers/fetchCustomerById',
-  async (id, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await api.get(`/customers/${id}`);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch customer');
     }
   }
@@ -28,11 +29,11 @@ export const fetchCustomerById = createAsyncThunk(
 
 export const createCustomer = createAsyncThunk(
   'customers/createCustomer',
-  async (customerData, { rejectWithValue }) => {
+  async (customerData: { name: string; email: string; phone: string; company: string }, { rejectWithValue }) => {
     try {
       const response = await api.post('/customers', customerData);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create customer');
     }
   }
@@ -40,11 +41,12 @@ export const createCustomer = createAsyncThunk(
 
 export const updateCustomer = createAsyncThunk(
   'customers/updateCustomer',
-  async ({ id, ...customerData }, { rejectWithValue }) => {
+  async (customerData: { id: string; name: string; email: string; phone: string; company: string }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/customers/${id}`, customerData);
+      const { id, ...updateData } = customerData;
+      const response = await api.put(`/customers/${id}`, updateData);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update customer');
     }
   }
@@ -52,11 +54,11 @@ export const updateCustomer = createAsyncThunk(
 
 export const deleteCustomer = createAsyncThunk(
   'customers/deleteCustomer',
-  async (id, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       await api.delete(`/customers/${id}`);
       return id;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete customer');
     }
   }

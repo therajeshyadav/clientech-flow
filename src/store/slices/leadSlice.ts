@@ -4,11 +4,12 @@ import api from '../../api/axios';
 // Async thunks
 export const fetchLeads = createAsyncThunk(
   'leads/fetchLeads',
-  async ({ customerId, status = '' }, { rejectWithValue }) => {
+  async (params: { customerId: string; status?: string }, { rejectWithValue }) => {
     try {
+      const { customerId, status = '' } = params;
       const response = await api.get(`/leads?customerId=${customerId}&status=${status}`);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch leads');
     }
   }
@@ -16,11 +17,11 @@ export const fetchLeads = createAsyncThunk(
 
 export const createLead = createAsyncThunk(
   'leads/createLead',
-  async (leadData, { rejectWithValue }) => {
+  async (leadData: { title: string; description: string; status: string; value: number; customerId: string }, { rejectWithValue }) => {
     try {
       const response = await api.post('/leads', leadData);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create lead');
     }
   }
@@ -28,11 +29,12 @@ export const createLead = createAsyncThunk(
 
 export const updateLead = createAsyncThunk(
   'leads/updateLead',
-  async ({ id, ...leadData }, { rejectWithValue }) => {
+  async (leadData: { id: string; title: string; description: string; status: string; value: number; customerId: string }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/leads/${id}`, leadData);
+      const { id, ...updateData } = leadData;
+      const response = await api.put(`/leads/${id}`, updateData);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update lead');
     }
   }
@@ -40,11 +42,11 @@ export const updateLead = createAsyncThunk(
 
 export const deleteLead = createAsyncThunk(
   'leads/deleteLead',
-  async (id, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       await api.delete(`/leads/${id}`);
       return id;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete lead');
     }
   }
@@ -56,7 +58,7 @@ export const fetchLeadsStats = createAsyncThunk(
     try {
       const response = await api.get('/leads/stats');
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch leads stats');
     }
   }

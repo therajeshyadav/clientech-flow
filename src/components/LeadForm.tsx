@@ -62,7 +62,9 @@ const LeadForm: React.FC<LeadFormProps> = ({ isOpen, onClose, customerId, lead }
     e.preventDefault();
     
     const submitData = {
-      ...formData,
+      title: formData.title,
+      description: formData.description,
+      status: formData.status,
       value: parseFloat(formData.value) || 0,
       customerId,
     };
