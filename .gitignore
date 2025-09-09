@@ -31,3 +31,5 @@ backend/logs/
 backend/temp/
 backend/dist/
 backend/.env
+
+.env
