@@ -18,6 +18,7 @@ export const getCustomers = async (req, res) => {
     const { page = 1, limit = 5, search = "" } = req.query;
 
     const query = {
+      ownerId: req.user.id,
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
@@ -45,7 +46,10 @@ export const getCustomers = async (req, res) => {
 
 export const getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.id);
+    const customer = await Customer.findOne({
+      _id: req.params.id,
+      ownerId: req.user.id, // 👈 sirf apna hi dekh paaye
+    });
     if (!customer) return res.status(404).json({ msg: "Customer not found" });
 
     const leads = await Lead.find({ customerId: customer._id });
@@ -57,9 +61,12 @@ export const getCustomerById = async (req, res) => {
 
 export const updateCustomer = async (req, res) => {
   try {
-    const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const customer = await Customer.findOneAndUpdate(
+      { _id: req.params.id, ownerId: req.user.id },
+      req.body,
+      { new: true }
+    );
+
     res.json(customer);
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -68,7 +75,11 @@ export const updateCustomer = async (req, res) => {
 
 export const deleteCustomer = async (req, res) => {
   try {
-    await Customer.findByIdAndDelete(req.params.id);
+    await Customer.findOneAndDelete({
+      _id: req.params.id,
+      ownerId: req.user.id,
+    });
+
     res.json({ msg: "Customer deleted" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
