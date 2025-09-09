@@ -68,6 +68,7 @@ const initialState = {
   customers: [],
   currentCustomer: null,
   isLoading: false,
+  leads: [], 
   error: null,
   pagination: {
     currentPage: 1,
@@ -114,7 +115,9 @@ const customerSlice = createSlice({
       })
       .addCase(fetchCustomerById.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.currentCustomer = action.payload;
+        state.currentCustomer = action.payload.customer; 
+  // leads agar chahiye toh yaha store karo
+       state.leads = action.payload.leads;
       })
       .addCase(fetchCustomerById.rejected, (state, action) => {
         state.isLoading = false;

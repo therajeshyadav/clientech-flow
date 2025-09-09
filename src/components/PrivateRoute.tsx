@@ -12,7 +12,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   
   console.log('PrivateRoute check:', { isAuthenticated, hasToken: !!token });
   
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+return (isAuthenticated && token) ? children : <Navigate to="/login" replace />;
+
 };
 
 export default PrivateRoute;

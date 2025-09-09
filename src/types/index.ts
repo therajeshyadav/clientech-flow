@@ -5,6 +5,7 @@ export interface User {
 }
 //
 
+
 export interface Customer {
   _id: string;
   name: string;
@@ -54,10 +55,16 @@ export interface LeadState {
   error: string | null;
   statusFilter: string;
   stats: {
-    statusDistribution: Array<{ status: string; count: number; value: number }>;
-    valueDistribution: Array<{ status: string; totalValue: number }>;
+    statusDistribution: any[];
+    valueDistribution: any[];
+  };
+  pagination: {
+    totalLeads: number;
+    totalPages: number;
+    currentPage: number;
   };
 }
+
 
 export interface RootState {
   auth: AuthState;

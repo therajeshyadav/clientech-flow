@@ -1,44 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, clearError } from '../store/slices/authSlice';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { Loader2, Users, Mail, Lock } from 'lucide-react';
-import { RootState } from '../types';
-//
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, clearError } from "../store/slices/authSlice";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Loader2, Users, Mail, Lock } from "lucide-react";
+import { RootState } from "../types";
+import { useToast } from "@/components/ui/use-toast";
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, error, isAuthenticated } = useSelector((state: RootState) => state.auth);
-  
-  console.log('Login component rendering');
-  console.log('Login component state:', { isAuthenticated, isLoading });
-  
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const { toast } = useToast();
+
+  const { isLoading, error, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   useEffect(() => {
-    console.log('Login useEffect - isAuthenticated:', isAuthenticated);
     if (isAuthenticated) {
-      navigate('/dashboard');
+      toast({
+        title: "Login Successful",
+        description: "Welcome back!",
+      });
+      navigate("/dashboard");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, toast]);
 
   useEffect(() => {
-    dispatch(clearError());
-  }, [dispatch]);
+    if (error) {
+      console.log('Login error:', error);
+      toast({
+        title: "Login Failed",
+        description: error,
+        variant: "destructive",
+      });
+    }
+    return () => {
+      dispatch(clearError());
+    };
+  }, [error, dispatch, toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,154 +54,91 @@ const Login = () => {
     dispatch(login(formData) as any);
   };
 
-  console.log('Login component about to render JSX');
-
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-      <div style={{ width: '100%', maxWidth: '28rem' }}>
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
         {/* Logo and Title */}
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            width: '4rem', 
-            height: '4rem', 
-            backgroundColor: '#3b82f6', 
-            borderRadius: '1rem', 
-            marginBottom: '1rem' 
-          }}>
-            <Users style={{ width: '2rem', height: '2rem', color: 'white' }} />
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4">
+            <Users className="w-8 h-8 text-primary-foreground" />
           </div>
-          <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', color: '#111827', marginBottom: '0.5rem' }}>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
             Welcome Back
           </h1>
-          <p style={{ color: '#6b7280' }}>Sign in to your MiniCRM account</p>
+          <p className="text-muted-foreground">
+            Sign in to your MiniCRM account
+          </p>
         </div>
 
-        <div style={{ 
-          backgroundColor: 'white', 
-          borderRadius: '0.5rem', 
-          border: '1px solid #e5e7eb', 
-          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' 
-        }}>
-          <div style={{ padding: '1.5rem', paddingBottom: '0' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '0.5rem' }}>Sign In</h2>
-            <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-              Enter your credentials to access your account
-            </p>
-          </div>
-          
-          <div style={{ padding: '1.5rem' }}>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {error && (
-                <div style={{ 
-                  backgroundColor: '#fef2f2', 
-                  border: '1px solid #f87171', 
-                  borderRadius: '0.375rem', 
-                  padding: '0.75rem',
-                  color: '#dc2626'
-                }}>
-                  {error}
-                </div>
-              )}
-              
-              <div>
-                <label htmlFor="email" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', marginBottom: '0.5rem', color: '#374151' }}>
-                  Email
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Mail style={{ position: 'absolute', left: '0.75rem', top: '0.75rem', width: '1rem', height: '1rem', color: '#9ca3af' }} />
-                  <input
+        <Card className="shadow-elegant">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold">Sign In</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
                     id="email"
                     name="email"
                     type="email"
                     placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleChange}
-                    style={{
-                      width: '100%',
-                      padding: '0.75rem',
-                      paddingLeft: '2.5rem',
-                      border: '1px solid #d1d5db',
-                      borderRadius: '0.375rem',
-                      fontSize: '0.875rem'
-                    }}
+                    className="pl-10 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-offset-0"
                     required
                   />
                 </div>
               </div>
-              
-              <div>
-                <label htmlFor="password" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', marginBottom: '0.5rem', color: '#374151' }}>
-                  Password
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Lock style={{ position: 'absolute', left: '0.75rem', top: '0.75rem', width: '1rem', height: '1rem', color: '#9ca3af' }} />
-                  <input
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
                     id="password"
                     name="password"
                     type="password"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleChange}
-                    style={{
-                      width: '100%',
-                      padding: '0.75rem',
-                      paddingLeft: '2.5rem',
-                      border: '1px solid #d1d5db',
-                      borderRadius: '0.375rem',
-                      fontSize: '0.875rem'
-                    }}
+                    className="pl-10 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-offset-0"
                     required
                   />
                 </div>
               </div>
-              
-              <button
+
+              <Button
                 type="submit"
+                className="w-full gradient-primary"
                 disabled={isLoading}
-                style={{
-                  width: '100%',
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '0.75rem',
-                  borderRadius: '0.375rem',
-                  border: 'none',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  cursor: isLoading ? 'not-allowed' : 'pointer',
-                  opacity: isLoading ? 0.5 : 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem'
-                }}
               >
                 {isLoading ? (
                   <>
-                    <Loader2 style={{ width: '1rem', height: '1rem', animation: 'spin 1s linear infinite' }} />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Signing In...
                   </>
                 ) : (
-                  'Sign In'
+                  "Sign In"
                 )}
-              </button>
+              </Button>
             </form>
-            
-            <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-              <p style={{ color: '#6b7280' }}>
-                Don't have an account?{' '}
-                <Link 
-                  to="/register" 
-                  style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: '500' }}
+
+            <div className="mt-6 text-center">
+              <p className="text-muted-foreground">
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-primary hover:text-primary-hover font-medium transition-colors"
                 >
                   Sign up
                 </Link>
               </p>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

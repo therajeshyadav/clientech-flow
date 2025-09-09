@@ -1,34 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchCustomers, deleteCustomer, setSearchQuery } from '../store/slices/customerSlice';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
-import Navbar from '../components/Navbar';
-import SearchBar from '../components/SearchBar';
-import Pagination from '../components/Pagination';
-import CustomerForm from '../components/CustomerForm';
-import { 
-  Plus, 
-  Users, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  Mail, 
-  Phone, 
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import {
+  fetchCustomers,
+  deleteCustomer,
+  setSearchQuery,
+} from "../store/slices/customerSlice";
+import { Button } from "../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
+import CustomerForm from "../components/CustomerForm";
+import {
+  Plus,
+  Users,
+  Edit,
+  Trash2,
+  Eye,
+  Mail,
+  Phone,
   Building,
-  Loader2 
-} from 'lucide-react';
-import { RootState } from '../types';
-import { Customer } from '../types';
+  Loader2,
+} from "lucide-react";
+import { RootState } from "../types";
+import { Customer } from "../types";
+
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { customers, isLoading, pagination, searchQuery } = useSelector(
     (state: RootState) => state.customers
   );
-  
+
+
+
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
 
@@ -50,7 +63,7 @@ const Dashboard = () => {
   };
 
   const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this customer?')) {
+    if (window.confirm("Are you sure you want to delete this customer?")) {
       dispatch(deleteCustomer(id) as any);
     }
   };
@@ -59,7 +72,7 @@ const Dashboard = () => {
     setIsFormOpen(false);
     setEditingCustomer(null);
   };
-//
+  //
   const handleAddNew = () => {
     setEditingCustomer(null);
     setIsFormOpen(true);
@@ -68,11 +81,13 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Customer Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Customer Dashboard
+          </h1>
           <p className="text-muted-foreground">
             Manage your customers and track their information
           </p>
@@ -82,40 +97,42 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Customers
+              </CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{pagination.totalCustomers}</div>
+              <div className="text-2xl font-bold">
+                {pagination.totalCustomers ?? 0}
+              </div>
               <p className="text-xs text-muted-foreground">
                 Active customer accounts
               </p>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">This Page</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{customers.length}</div>
-              <p className="text-xs text-muted-foreground">
-                Customers shown
-              </p>
+              <div className="text-2xl font-bold">{customers.length ?? 0}</div>
+              <p className="text-xs text-muted-foreground">Customers shown</p>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pages</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{pagination.totalPages}</div>
-              <p className="text-xs text-muted-foreground">
-                Total pages
-              </p>
+              <div className="text-2xl font-bold">
+                {pagination.totalPages ?? 0}
+              </div>
+              <p className="text-xs text-muted-foreground">Total pages</p>
             </CardContent>
           </Card>
         </div>
@@ -128,7 +145,7 @@ const Dashboard = () => {
             placeholder="Search customers by name or email..."
             className="w-full sm:w-96"
           />
-          
+
           <Button onClick={handleAddNew} className="gradient-primary">
             <Plus className="w-4 h-4 mr-2" />
             Add Customer
@@ -140,7 +157,8 @@ const Dashboard = () => {
           <CardHeader>
             <CardTitle>Customers</CardTitle>
             <CardDescription>
-              A list of all customers in your account including their name, email, phone, and company.
+              A list of all customers in your account including their name,
+              email, phone, and company.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -151,9 +169,13 @@ const Dashboard = () => {
             ) : customers.length === 0 ? (
               <div className="text-center py-8">
                 <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">No customers found</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  No customers found
+                </h3>
                 <p className="text-muted-foreground mb-4">
-                  {searchQuery ? 'No customers match your search.' : 'Get started by adding your first customer.'}
+                  {searchQuery
+                    ? "No customers match your search."
+                    : "Get started by adding your first customer."}
                 </p>
                 <Button onClick={handleAddNew} className="gradient-primary">
                   <Plus className="w-4 h-4 mr-2" />
@@ -165,18 +187,21 @@ const Dashboard = () => {
                 {customers.map((customer) => (
                   <div
                     key={customer._id}
-                    className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border border-border rounded-lg hover:bg-muted/50 transition-colors"
                   >
+                    {/* Left side: customer info */}
                     <div className="flex items-center space-x-4">
                       <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                         <span className="text-sm font-medium text-primary">
                           {customer.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                      
+
                       <div className="space-y-1">
-                        <h3 className="font-medium text-foreground">{customer.name}</h3>
-                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                        <h3 className="font-medium text-foreground">
+                          {customer.name}
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                           <div className="flex items-center space-x-1">
                             <Mail className="w-3 h-3" />
                             <span>{customer.email}</span>
@@ -192,29 +217,35 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-2">
+
+                    {/* Right side: buttons */}
+                    <div className="flex flex-row flex-nowrap items-center gap-2">
                       <Link to={`/customers/${customer._id}`}>
-                        <Button variant="outline" size="sm">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-shrink-0"
+                        >
                           <Eye className="w-4 h-4 mr-1" />
                           View
                         </Button>
                       </Link>
-                      
+
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleEdit(customer)}
+                        className="flex-shrink-0"
                       >
                         <Edit className="w-4 h-4 mr-1" />
                         Edit
                       </Button>
-                      
+
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleDelete(customer._id)}
-                        className="text-destructive hover:text-destructive-foreground hover:bg-destructive"
+                        className="flex-shrink-0 text-destructive hover:text-destructive-foreground hover:bg-destructive"
                       >
                         <Trash2 className="w-4 h-4 mr-1" />
                         Delete
@@ -224,12 +255,12 @@ const Dashboard = () => {
                 ))}
               </div>
             )}
-            
+
             {pagination.totalPages > 1 && (
               <div className="mt-6 flex justify-center">
                 <Pagination
-                  currentPage={pagination.currentPage}
-                  totalPages={pagination.totalPages}
+                  currentPage={pagination.currentPage ?? 0}
+                  totalPages={pagination.totalPages ?? 0}
                   onPageChange={handlePageChange}
                 />
               </div>
